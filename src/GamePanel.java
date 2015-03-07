@@ -29,7 +29,7 @@ public class GamePanel extends JPanel
 
 		MapBuild m = new MapBuild();
 
-		ArrayList<BufferedImage[]> images = m.getImages();
+		ArrayList<ArrayList<BufferedImage>> images = m.getImages();
 		Tile[][] map = new Tile[size.height / MapBuild.IMAGE_SIZE][size.width / MapBuild.IMAGE_SIZE];
 		/*for(int i = 0;i<map[0].length;i++)
 		{

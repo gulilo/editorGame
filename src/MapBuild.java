@@ -8,37 +8,46 @@ import java.util.ArrayList;
 public class MapBuild
 {
 	public static final int IMAGE_SIZE = 50;
-	private static final int GAP = 5;
 	private static Image correntImage;
 
-	private ArrayList<BufferedImage[]> images;
+	private static ArrayList<ArrayList<BufferedImage>> images;
+	private static ArrayList<ArrayList<File>> files;
 
 	public MapBuild()
 	{
-		images = new ArrayList<BufferedImage[]>();
+		this.files = new ArrayList<ArrayList<File>>();
+		images = new ArrayList<ArrayList<BufferedImage>>();
 		File[] files = new File("pic").listFiles();
-		for(File f : files)
+		if(files == null)
 		{
-			try
+			//TODO what heppen when pic not exist
+		}
+		else
+		{
+			int index = 0;
+			for(File f : files)
 			{
-				BufferedImage im = ImageIO.read(f);
-				int n = im.getWidth() / IMAGE_SIZE;
-				int m = im.getHeight() / IMAGE_SIZE;
-				BufferedImage[] bi = new BufferedImage[n * m];
-				for(int i = 0; i < m; i++)
+				if(f.isDirectory())
 				{
-					for(int j = 0; j < n; j++)
+					index++;
+					ArrayList<File> dir = new ArrayList<File>();
+					this.files.add(dir);
+					ArrayList<BufferedImage> bi = new ArrayList<BufferedImage>();
+					images.add(bi);
+					File[] pics = f.listFiles();
+					for(File file : pics)
 					{
-						int x = j * IMAGE_SIZE + GAP * j;
-						int y = i * IMAGE_SIZE + GAP * i;
-						bi[j * m + i] = im.getSubimage(x, y, IMAGE_SIZE, IMAGE_SIZE);
+						dir.add(file);
+						try
+						{
+							bi.add(ImageIO.read(file));
+						}
+						catch(IOException e)
+						{
+							e.printStackTrace();
+						}
 					}
 				}
-				images.add(bi);
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
 			}
 		}
 	}
@@ -54,14 +63,23 @@ public class MapBuild
 		MapBuild.correntImage = correntImage;
 	}
 
-	public ArrayList<BufferedImage[]> getImages()
+	public ArrayList<ArrayList<BufferedImage>> getImages()
 	{
 		return images;
 	}
 
-
-	public static File getFileFromName(Image image)
+	public static File getFileFromImage(Image im)
 	{
+		for(int i = 0;i<images.size();i++)
+		{
+			for(int j = 0; j < images.get(i).size(); j++)
+			{
+				if(images.get(i).get(j) == im)
+				{
+					return files.get(i).get(j);
+				}
+			}
+		}
 		return null;
 	}
 }

@@ -17,9 +17,9 @@ public class SelectPanel extends JPanel
 		MapBuild m = new MapBuild();
 		types = new ArrayList<ArrayList<SelectTile>>();
 		ArrayList<SelectTile> tiles = new ArrayList<SelectTile>();
-		ArrayList<BufferedImage[]> images = m.getImages();
+		ArrayList<ArrayList<BufferedImage>> images = m.getImages();
 		int indexi = 0, indexj = 0;
-		for(BufferedImage[] bi : images)
+		for(ArrayList<BufferedImage> bi : images)
 		{
 			for(BufferedImage image : bi)
 			{

@@ -2,10 +2,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -25,7 +22,7 @@ public class EditorPanel extends JPanel
 
 
 		MapBuild m = new MapBuild();
-		ArrayList<BufferedImage[]> images = m.getImages();
+		ArrayList<ArrayList<BufferedImage>> images = m.getImages();
 		EditorTile[][] map = new EditorTile[size.width / MapBuild.IMAGE_SIZE][size.height / MapBuild.IMAGE_SIZE];
 		for(int i = 0; i < map.length; i++)
 		{
@@ -37,7 +34,7 @@ public class EditorPanel extends JPanel
 		}
 	}
 
-	public void save() throws IOException
+	public void save()
 	{
 		JFileChooser chooser = new JFileChooser();
 		chooser.addChoosableFileFilter(new FileFilter()
@@ -59,20 +56,47 @@ public class EditorPanel extends JPanel
 		if(res == JFileChooser.APPROVE_OPTION)
 		{
 			File f = chooser.getSelectedFile();
-
-			ZipEntry entry = new ZipEntry("map.map");
-			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
-			out.putNextEntry(entry);
-
-			ObjectOutputStream oout = new ObjectOutputStream(out);
-			oout.writeObject(map);
-
-			for(int i = 0;i<map.getX();i++)
+			try
 			{
-				for(int j = 0;j<map.getY();j++)
+
+
+				ZipEntry entry = new ZipEntry("map.map");
+				ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
+				out.putNextEntry(entry);
+
+				ObjectOutputStream oout = new ObjectOutputStream(out);
+				oout.writeObject(map);
+
+				for(int i = 0; i < map.getX(); i++)
 				{
-					File file = MapBuild.getFileFromName(map.getTile(i, j).getImage());
+					for(int j = 0; j < map.getY(); j++)
+					{
+
+						File file = MapBuild.getFileFromImage(map.getTile(i, j).getImage());
+						FileInputStream in = new FileInputStream(file);
+						entry = new ZipEntry(file.getName());
+						out.putNextEntry(entry);
+
+						byte[] buffer = new byte[1024];
+						int len;
+						while((len = in.read(buffer)) > 0)
+						{
+							out.write(buffer, 0, len);
+						}
+						in.close();
+
+					}
 				}
+				out.closeEntry();
+				out.close();
+			}
+			catch(FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
