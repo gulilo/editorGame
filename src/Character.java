@@ -5,7 +5,7 @@ public abstract class Character extends JPanel
 {
 	protected Image image;
 
-	public Character(Point loc,Dimension size)
+	public Character(Point loc, Dimension size)
 	{
 		super();
 		setLocation(loc);
@@ -23,12 +23,12 @@ public abstract class Character extends JPanel
 		super.paintComponent(g);
 		if(image != null)
 		{
-			g.drawImage(image,0,0,null);
+			g.drawImage(image, 0, 0, null);
 		}
 		else
 		{
 			g.setColor(Color.BLUE);
-			g.fillRect(0,0,getSize().width,getSize().height);
+			g.fillRect(0, 0, getSize().width, getSize().height);
 		}
 	}
 }

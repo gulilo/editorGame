@@ -1,31 +1,29 @@
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
 
 
 public class SelectPanel extends JPanel
 {
-	private ArrayList<ArrayList<SelectTile>> types; 
+	private ArrayList<ArrayList<SelectTile>> types;
+
 	public SelectPanel(Dimension size)
 	{
 		super();
 		setSize(size);
 		setLayout(null);
-		
-		Map m = new Map();
+
+		MapBuild m = new MapBuild();
 		types = new ArrayList<ArrayList<SelectTile>>();
 		ArrayList<SelectTile> tiles = new ArrayList<SelectTile>();
 		ArrayList<BufferedImage[]> images = m.getImages();
-		int indexi = 0,indexj = 0;
-		for(BufferedImage[] bi: images)
+		int indexi = 0, indexj = 0;
+		for(BufferedImage[] bi : images)
 		{
-			for(BufferedImage image :bi)
+			for(BufferedImage image : bi)
 			{
-				if(indexi* Map.IMAGE_SIZE+Map.IMAGE_SIZE>getSize().width)
+				if(indexi * MapBuild.IMAGE_SIZE + MapBuild.IMAGE_SIZE > getSize().width)
 				{
 					indexi = 0;
 					indexj++;
@@ -34,8 +32,8 @@ public class SelectPanel extends JPanel
 				{
 					indexi++;
 				}
-				
-				SelectTile tile = new SelectTile(new Point(indexi*Map.IMAGE_SIZE,indexj*Map.IMAGE_SIZE),image);
+
+				SelectTile tile = new SelectTile(new Point(indexi * MapBuild.IMAGE_SIZE, indexj * MapBuild.IMAGE_SIZE), image);
 				add(tile);
 				tiles.add(tile);
 			}

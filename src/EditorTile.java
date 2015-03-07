@@ -1,65 +1,45 @@
-import javax.swing.*;
-
-import org.w3c.dom.events.MouseEvent;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
-public class EditorTile extends JPanel implements MouseListener
+public class EditorTile extends Tile implements MouseListener, Serializable
 {
-	private Image image;
-
 	public EditorTile(Point loc, Image image)
 	{
-		super();
-		setSize(Map.IMAGE_SIZE,Map.IMAGE_SIZE);
-		setLocation(loc);
-		setLayout(null);
-
-		this.image = image;
+		super(loc, image);
 		addMouseListener(this);
 	}
 
 	@Override
-	protected void paintComponent(Graphics g)
+	public void mouseClicked(MouseEvent e)
 	{
-		super.paintComponent(g);
-		if(image != null)
-		{
-			g.drawImage(image, 0, 0, null);
-		}
+		e.consume();
 	}
 
 	@Override
-	public void mouseClicked(java.awt.event.MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseEntered(MouseEvent e)
+	{
+		e.consume();
 	}
 
 	@Override
-	public void mouseEntered(java.awt.event.MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseExited(MouseEvent e)
+	{
+		e.consume();
 	}
 
 	@Override
-	public void mouseExited(java.awt.event.MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mousePressed(MouseEvent e)
+	{
+		image = MapBuild.getCorrentImage();
+		e.consume();
 	}
 
 	@Override
-	public void mousePressed(java.awt.event.MouseEvent e) {
-		image = Map.getCorrentImage();
-		System.out.println("somthing");
+	public void mouseReleased(MouseEvent e)
+	{
+		e.consume();
 	}
 
-	@Override
-	public void mouseReleased(java.awt.event.MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

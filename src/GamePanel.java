@@ -27,10 +27,10 @@ public class GamePanel extends JPanel
 			e.printStackTrace();
 		}
 
-		Map m = new Map();
+		MapBuild m = new MapBuild();
 
 		ArrayList<BufferedImage[]> images = m.getImages();
-		Tile[][] map = new Tile[size.height/Map.IMAGE_SIZE][size.width/Map.IMAGE_SIZE];
+		Tile[][] map = new Tile[size.height / MapBuild.IMAGE_SIZE][size.width / MapBuild.IMAGE_SIZE];
 		/*for(int i = 0;i<map[0].length;i++)
 		{
 			//int index = (int) (Math.random() * images.size());
@@ -38,12 +38,12 @@ public class GamePanel extends JPanel
 			map[map.length/2][i] = new Tile(new Point(i*Map.IMAGE_SIZE,(map.length/2)*Map.IMAGE_SIZE), arr[(int) (Math.random() * arr.length)]);
 			add(map[map.length/2][i]);
 		}*/
-		
-		for(int i = 0;i<map.length;i++)
+
+		for(int i = 0; i < map.length; i++)
 		{
-			for(int j = 0;j<map[0].length;j++)
+			for(int j = 0; j < map[0].length; j++)
 			{
-				map[i][j] = new Tile(new Point(i*Map.IMAGE_SIZE,j*Map.IMAGE_SIZE),null);
+				map[i][j] = new Tile(new Point(i * MapBuild.IMAGE_SIZE, j * MapBuild.IMAGE_SIZE), null);
 			}
 		}
 	}

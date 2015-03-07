@@ -1,62 +1,56 @@
-import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.Serializable;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-public class Map
+public class Map implements Serializable
 {
-	public static final int IMAGE_SIZE = 50;
-	private static final int GAP = 5;
-	private static Image correntImage;
+	private Tile[][] tiles;
+	private int x, y;
 
-	private ArrayList<BufferedImage[]> images;
-	public Map()
+	public Map(int x, int y)
 	{
-		images = new ArrayList<BufferedImage[]>();
-		File[] files = new File("pic").listFiles();
-		for(File f:files)
+		this.x = x;
+		this.y = y;
+		tiles = new Tile[x][y];
+		for(int i = 0; i < x; i++)
 		{
-			try
+			for(int j = 0; j < y; j++)
 			{
-				BufferedImage im = ImageIO.read(f);
-				int n = im.getWidth()/IMAGE_SIZE;
-				int m = im.getHeight()/IMAGE_SIZE;
-				BufferedImage[] bi = new BufferedImage[n*m];
-				for(int i = 0;i<m;i++)
-				{
-					for(int j = 0;j<n;j++)
-					{
-						int x = j * IMAGE_SIZE + GAP*j;
-						int y = i * IMAGE_SIZE + GAP*i;
-						bi[j*m + i] = im.getSubimage(x, y, IMAGE_SIZE, IMAGE_SIZE);
-					}
-				}
-				images.add(bi);
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
+				tiles[i][j] = new Tile(new Point(i, j), null);
 			}
 		}
 	}
 
-	public ArrayList<BufferedImage[]> getImages()
+	public Map(Tile[][] tiles)
 	{
-		return images;
+		this.x = tiles.length;
+		this.y = tiles[0].length;
+		this.tiles = new Tile[tiles.length][tiles[0].length];
+		for(int i = 0; i < tiles.length; i++)
+		{
+			for(int j = 0; j < tiles[0].length; j++)
+			{
+				this.tiles[i][j] = new Tile(tiles[i][j]);
+			}
+		}
 	}
 
-	public static Image getCorrentImage() {
-		
-		return correntImage;
+	public void setTile(int x, int y, Tile t)
+	{
+		tiles[x][y] = t;
 	}
 
-	public static void setCorrentImage(Image correntImage) {
-		Map.correntImage = correntImage;
+	public Tile getTile(int x, int y)
+	{
+		return tiles[x][y];
 	}
-	
-	
 
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
+	}
 }
