@@ -41,5 +41,4 @@ public class EditorTile extends Tile implements MouseListener, Serializable
 	{
 		e.consume();
 	}
-
 }

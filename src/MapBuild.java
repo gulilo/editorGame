@@ -70,16 +70,19 @@ public class MapBuild
 
 	public static File getFileFromImage(Image im)
 	{
-		for(int i = 0;i<images.size();i++)
+		System.out.println(im);
+		for(int i = 0; i < images.size(); i++)
 		{
 			for(int j = 0; j < images.get(i).size(); j++)
 			{
 				if(images.get(i).get(j) == im)
 				{
+					System.out.println("found");
 					return files.get(i).get(j);
 				}
 			}
 		}
+		System.out.println("cant find");
 		return null;
 	}
 }

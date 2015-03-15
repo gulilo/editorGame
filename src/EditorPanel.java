@@ -1,25 +1,18 @@
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-public class EditorPanel extends JPanel
+public class EditorPanel extends BasicPanel
 {
 	private Map map;
+	public static EditorAPI API;
 
-	public EditorPanel(Dimension size)
+	public EditorPanel(Point loc, Dimension size)
 	{
-		super();
-		setSize(size);
-		setLayout(null);
+		super(loc, size);
+		API = new EditorAPI(this);
 
-		map = new Map(size.width / MapBuild.IMAGE_SIZE , size.height / MapBuild.IMAGE_SIZE);
-
-
+		map = new Map(size.width / MapBuild.IMAGE_SIZE, size.height / MapBuild.IMAGE_SIZE);
 
 		MapBuild m = new MapBuild();
 		ArrayList<ArrayList<BufferedImage>> images = m.getImages();
@@ -34,70 +27,8 @@ public class EditorPanel extends JPanel
 		}
 	}
 
-	public void save()
+	public Map getMap()
 	{
-		JFileChooser chooser = new JFileChooser();
-		chooser.addChoosableFileFilter(new FileFilter()
-		{
-			@Override
-			public boolean accept(File f)
-			{
-				return f.isDirectory() || f.getName().contains(".sav");
-			}
-
-			@Override
-			public String getDescription()
-			{
-				return null;
-			}
-		});
-		int res = chooser.showSaveDialog(this);
-
-		if(res == JFileChooser.APPROVE_OPTION)
-		{
-			File f = chooser.getSelectedFile();
-			try
-			{
-
-
-				ZipEntry entry = new ZipEntry("map.map");
-				ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
-				out.putNextEntry(entry);
-
-				ObjectOutputStream oout = new ObjectOutputStream(out);
-				oout.writeObject(map);
-
-				for(int i = 0; i < map.getX(); i++)
-				{
-					for(int j = 0; j < map.getY(); j++)
-					{
-
-						File file = MapBuild.getFileFromImage(map.getTile(i, j).getImage());
-						FileInputStream in = new FileInputStream(file);
-						entry = new ZipEntry(file.getName());
-						out.putNextEntry(entry);
-
-						byte[] buffer = new byte[1024];
-						int len;
-						while((len = in.read(buffer)) > 0)
-						{
-							out.write(buffer, 0, len);
-						}
-						in.close();
-
-					}
-				}
-				out.closeEntry();
-				out.close();
-			}
-			catch(FileNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		return map;
 	}
 }

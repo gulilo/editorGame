@@ -1,18 +1,15 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
-public class SelectPanel extends JPanel
+public class SelectPanel extends BasicPanel
 {
 	private ArrayList<ArrayList<SelectTile>> types;
 
-	public SelectPanel(Dimension size)
+	public SelectPanel(Point loc, Dimension size)
 	{
-		super();
-		setSize(size);
-		setLayout(null);
+		super(loc,size);
 
 		MapBuild m = new MapBuild();
 		types = new ArrayList<ArrayList<SelectTile>>();

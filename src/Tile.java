@@ -37,6 +37,10 @@ public class Tile extends JPanel
 		{
 			g.drawImage(image, 0, 0, null);
 		}
+		else
+		{
+			setOpaque(false);
+		}
 	}
 
 }

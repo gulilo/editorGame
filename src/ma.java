@@ -8,17 +8,20 @@ public class ma
 		Dimension size = new Dimension(1000, 500);
 		Screen mainWindow = new Screen(location, size);
 
-		EditorPanel p = new EditorPanel(size);
-		mainWindow.add(p);
-		mainWindow.open();
+		ContentPane content = new ContentPane(new Point(), mainWindow.getSize());
+		mainWindow.add(content);
 
+		/*EditorPanel p = new EditorPanel(size);
+		mainWindow.add(p);*/
+		mainWindow.open();
+/*
 		Point selectLocation = new Point(size.width + location.x, location.y);
 		Dimension selectSize = new Dimension(100, size.height);
 		Screen selectWindow = new Screen(selectLocation, selectSize);
 
 		selectWindow.add(new SelectPanel(selectSize));
 		selectWindow.open();
-
+*/
 		while(mainWindow.isOpen())
 		{
 			mainWindow.repaint();
